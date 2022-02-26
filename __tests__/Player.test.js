@@ -3,6 +3,28 @@ const Potion = require('../lib/Potion');
 jest.mock('../lib/Potion');
 
 const Player = require('../lib/Player');
+test("gets player's stats as an object", () => {
+    const player = new Player('Dave');
+  
+    expect(player.getStats()).toHaveProperty('potions');
+    expect(player.getStats()).toHaveProperty('health');
+    expect(player.getStats()).toHaveProperty('strength');
+    expect(player.getStats()).toHaveProperty('agility');
+});
+
+
+test('gets inventory from player or returns false', () => {
+    const player = new Player('Dave');
+  
+    expect(player.getInventory()).toEqual(expect.any(Array));
+  
+    player.inventory = [];
+  
+    expect(player.getInventory()).toEqual(false);
+  });
+
+
+  
 test('creates a player object', () => {
     const player = new Player('Dave');
   
@@ -12,15 +34,16 @@ test('creates a player object', () => {
     expect(player.agility).toEqual(expect.any(Number));
     expect(player.inventory).toEqual(
         expect.arrayContaining([expect.any(Object)])
-      );
-      
+      );      
   });
-function Player(name = '') {
-    this.name = name;
+  Player.prototype.getStats = function() {
+    return {
+      potions: this.inventory.length,
+      health: this.health,
+      strength: this.strength,
+      agility: this.agility
+    };
+  };
   
-    this.health = Math.floor(Math.random() * 10 + 95);
-    this.strength = Math.floor(Math.random() * 5 + 7);
-    this.agility = Math.floor(Math.random() * 5 + 7);
-  }
   
   module.exports = Player; 
