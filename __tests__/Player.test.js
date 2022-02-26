@@ -51,7 +51,15 @@ test('gets inventory from player or returns false', () => {
   
     expect(player.health).toBe(0);
   });
+  test('adds a potion to the inventory', () => {
+    const player = new Player('Dave');
+    const oldCount = player.inventory.length;
   
+    player.addPotion(new Potion());
+  
+    expect(player.inventory.length).toBeGreaterThan(oldCount);
+  });
+    
 
   
 test('creates a player object', () => {
